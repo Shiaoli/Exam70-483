@@ -26,6 +26,34 @@ namespace Chapter2
         public new void Execute() { Console.WriteLine("Derived executed!"); }
     }
 
+    //
+    public class Rectangle
+    {
+        public Rectangle(int width, int height)
+        {
+            Width = width;
+            Height = height;
+        }
+
+        public virtual int Width { get; set; }
+        public virtual int Height { get; set; }
+        public int Area()
+        {
+            return Height * Width;
+        }
+    }
+
+    public class Square : Rectangle
+    {
+        public Square(int size):base(size, size)
+        {
+
+        }
+
+        public override int Width { get => base.Width; set { base.Width = value; base.Height = value; }  }
+        public override int Height { get => base.Height; set { base.Height = value; base.Width = value; } }
+    }
+
     public struct StructParameters
     {
         public int value { get; set; }
@@ -36,7 +64,8 @@ namespace Chapter2
         {
             Program pro = new Program();
             //pro.Methods1();
-            pro.Overriding();
+            //pro.Overriding();
+            pro.Liskov();
         }
 
         // Involking methods
@@ -66,6 +95,14 @@ namespace Chapter2
             b.Execute();
             b = new Derived();
             b.Execute();
+        }
+
+        public void Liskov()
+        {
+            Rectangle rectangle = new Square(5);
+            rectangle.Width = 10;
+            Console.WriteLine("the area of the square is " + rectangle.Area());
+
         }
     }
 }
