@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Chapter2
 {
@@ -58,6 +60,70 @@ namespace Chapter2
     {
         public int value { get; set; }
     }
+
+    // IComparable interface
+    public class Order : IComparable
+    {
+        public DateTime Created { get; set; }
+
+        public int CompareTo(object obj)
+        {
+            if (obj == null) return 1;
+            Order o = obj as Order;
+            if (o == null)
+            {
+                throw new ArgumentException("Object is not an order");
+            }
+            return this.Created.CompareTo(o.Created);
+        }
+    }
+
+    public class ListNode
+    {
+        public ListNode(object value)
+        {
+            Value = value;
+        }
+
+        public object Value { get; private set; }
+
+        public ListNode Next { get; internal set; }
+        public ListNode Prev { get; internal set; }
+    }
+
+    public class ConnectedList: IEnumerable
+    {
+        public ListNode First { get; private set; }
+        public ListNode Last { get; private set; }
+
+        public ListNode AddNew(object node)
+        {
+            var newNode = new ListNode(node);
+            if(First == null)
+            {
+                First = newNode;
+                Last = First;
+            }
+            else
+            {
+                var previous = Last;
+                Last.Next = newNode;
+                Last = newNode;
+                Last.Prev = previous;
+            }
+            return newNode;
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            ListNode current = First;
+            if(current != null)
+            {
+                yield return current.Value;
+                current = current.Next;
+            }
+        }
+    }
     class Program
     {
         static void Main(string[] args)
@@ -65,7 +131,22 @@ namespace Chapter2
             Program pro = new Program();
             //pro.Methods1();
             //pro.Overriding();
-            pro.Liskov();
+            //pro.Liskov();
+            //pro.Interfaces();
+            //pro.EnumeTest();
+            pro.ConnectedListTest();
+        }
+
+        public void ConnectedListTest()
+        {
+            var aList = new ConnectedList();
+            aList.AddNew(10);
+            aList.AddNew(20);
+            aList.AddNew(30);
+            foreach(var i in aList)
+            {
+                Console.WriteLine(i);
+            }
         }
 
         // Involking methods
@@ -103,6 +184,30 @@ namespace Chapter2
             rectangle.Width = 10;
             Console.WriteLine("the area of the square is " + rectangle.Area());
 
+        }
+
+        public void Interfaces()
+        {
+            List<Order> orders = new List<Order>
+            {
+                new Order {Created = new DateTime(2005,12,2)},
+                new Order {Created = new DateTime(2010,10,21)},
+                new Order {Created = new DateTime(2006,3,3)},
+            };
+            orders.Sort();
+            foreach(var i in orders)
+            {
+                Console.WriteLine(i + "and");
+            }
+        }
+
+        public void EnumeTest()
+        {
+            List<int> numbers = new List<int> { 1, 2, 3, 4, 5, 6 };
+            using(List<int>.Enumerator enumerator = numbers.GetEnumerator())
+            {
+                while (enumerator.MoveNext()) Console.WriteLine(enumerator.Current);
+            }
         }
     }
 }
