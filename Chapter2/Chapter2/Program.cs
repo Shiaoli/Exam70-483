@@ -134,7 +134,8 @@ namespace Chapter2
             //pro.Liskov();
             //pro.Interfaces();
             //pro.EnumeTest();
-            pro.ConnectedListTest();
+            //pro.ConnectedListTest();
+            pro.ArraryTest();
         }
 
         public void ConnectedListTest()
@@ -208,6 +209,44 @@ namespace Chapter2
             {
                 while (enumerator.MoveNext()) Console.WriteLine(enumerator.Current);
             }
+        }
+
+        public class Person
+        {
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public override string ToString()
+            => $"{FirstName} {LastName}";
+        }
+        public void ArraryTest()
+        {
+            // simplest way do define a one-dimension array
+            int[] array1 = new int[] { 1, 2, 3, 4, 5 };
+            for(int i=0; i<array1.Length; i++)
+            {
+                Console.WriteLine(array1[i]);
+            }
+
+            // 
+            Person[] TwoPerson =
+            {
+                new Person {FirstName = "Name1", LastName="Lastname1"},
+                new Person {FirstName = "Name2", LastName="Lastname2"}
+            };
+            foreach(var i in TwoPerson)
+            {
+                Console.WriteLine(i.ToString());
+            }
+
+            // two dimensional array
+
+            int[,] twoDimension =
+            {
+                {1,2,3 },
+                {2,3,4 },
+                {3,4,5 }
+            };
+
         }
     }
 }
