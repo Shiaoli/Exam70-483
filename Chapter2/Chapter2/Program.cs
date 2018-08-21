@@ -135,7 +135,33 @@ namespace Chapter2
             //pro.Interfaces();
             //pro.EnumeTest();
             //pro.ConnectedListTest();
-            pro.ArraryTest();
+            //pro.ArraryTest();
+            pro.OperatorPractice();
+        }
+
+        public void OperatorPractice()
+        {
+            int? a = null;
+            int b = 10;
+            if(a < b)
+            {
+                Console.WriteLine("I'm in if, haha");
+            }
+            else
+            {
+                Console.WriteLine("I'm in else, haha");
+            }
+
+            int? a1 = null;
+            int b1;
+            b1 = a1 ?? 10;
+            a1 = 2;
+            b1 = a1 ?? 10;
+            int x = 1;
+            int y = 2;
+            int z = 3;
+            x = y = z;
+            Console.WriteLine($"the values of x y z is {x}, {y}, {z}");
         }
 
         public void ConnectedListTest()
