@@ -124,6 +124,75 @@ namespace Chapter2
             }
         }
     }
+
+    public class FieldsPractice
+    {
+        public const string s1 = "this is a const field";
+        public string s2 = "this is not a const field";
+    }
+
+    public struct NewSquare
+    {
+        public NewSquare(int length, int height)
+        {
+            Length = length;
+            Height = height;
+        }
+        public int Length { get; set; }
+        public int Height { get; set; }
+        
+        public int Area => Length * Height;
+    }
+
+    public class ClassSquare
+    {
+        public int Length { get; set; }
+        public int Height { get; set; }
+        public ClassSquare(int length, int height)
+        {
+            Length = length;
+            Height = height;
+        }
+        public int Area => Length * Height;
+    }
+
+    public static class StringExtension
+    {
+        public static int GetWordCount(this string s) => s.Split().Length;
+    }
+
+    public class Position
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
+        public override string ToString()
+        {
+            return $"X: {X}, Y: {Y}";
+        }
+    }
+
+    public class Size
+    {
+        public int Height { get; set; }
+        public int Width { get; set; }
+        public override string ToString()
+        {
+            return $"Height: {Height}, Width: {Width}";
+        }
+    }
+
+    public class Shape
+    {
+        public Position Position { get; } = new Position();
+        public Size Size { get; } = new Size();
+        public virtual void Draw() => Console.WriteLine($"Shape with {Position} and {Size}");
+    }
+
+    public class NewShape : Shape
+    {
+        public override void Draw() => Console.WriteLine($"Rectangle with {Position} and {Size}");
+    }
+
     class Program
     {
         static void Main(string[] args)
@@ -136,7 +205,52 @@ namespace Chapter2
             //pro.EnumeTest();
             //pro.ConnectedListTest();
             //pro.ArraryTest();
-            pro.OperatorPractice();
+            //pro.OperatorPractice();
+            //pro.StrucVCClass();
+            //pro.StringEx();
+            pro.ShapeMethod();
+        }
+
+        public void ShapeMethod()
+        {
+            var n = new NewShape();
+            n.Position.X = 10;
+            n.Position.Y = 12;
+            n.Size.Height = 14;
+            n.Size.Width = 16;
+            n.Draw();
+            //shape.Position = p;
+
+        }
+
+        public void StringEx()
+        {
+            string s1 = "this is a test";
+            Console.WriteLine(s1.GetWordCount());
+        }
+        public void StrucVCClass()
+        {
+            var StructSquare = new NewSquare();
+            StructSquare.Height = 5;
+            StructSquare.Length = 8;
+            //Console.WriteLine(StructSquare.Area);
+            ForStrucVSClass(ref StructSquare);
+            //Console.WriteLine(StructSquare.Area);
+            string input1 = Console.ReadLine();
+            int result1 = int.Parse(input1);
+            Console.WriteLine($"result: {result1}");
+
+        }
+
+        public void ForStrucVSClass(ref NewSquare A)
+        {
+            A.Height = 12;
+        }
+
+        public void FieldMethod()
+        {
+            FieldsPractice f1 = new FieldsPractice();
+            Console.WriteLine(f1.s2);
         }
 
         public void OperatorPractice()
